@@ -1,10 +1,13 @@
-###Calculate real beta diversity
+##Calculate real beta diversity
 #Load data (abundance data)
 #You can pre devide your data into seperate dataframes
 #one for each treatment combination, and import each one seperatly
 #or you can import all the data into one dataframe and seperate them in R
+
+#import the data from the file
 data <-read.csv(file.choose(), header=T,row.names=1)
 
+#select R working library
 library(vegan) 
 library(plotrix)
 
