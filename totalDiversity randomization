@@ -1,4 +1,4 @@
-##Diversity randomization
+##total diversity randomization
 #Load data (OTU table)
 
 #import the data from the file
@@ -85,8 +85,20 @@ real_results <- real_results[rep(seq_len(nrow(real_results)), each=1000),]
 #calculate the p.value as the number of times the real diff in ratio was equal to
 #or larger than the randomize diff
 p.values <-as.data.frame(colSums(rand_results>=real_results))/1000 
+
+####calculating confidence intervals for mean diversity
+rand_results <- na.omit(rand_results)
+conf_HONS <- CI(rand_results[,1], ci = 0.95)
+conf_HNS <- CI(rand_results[,2], ci = 0.95)
+conf_HS <- CI(rand_results[,3], ci = 0.95)
+conf_HOS <- CI(rand_results[,4], ci = 0.95)
+
+Conf <- rbind(conf_HONS,conf_HNS,conf_HS,conf_HOS)
+
+##Export data
 write.csv(p.values,file="Pvalues.csv")
 write.csv(mean_data,file="diversity.csv")
+write.csv(Conf,file="CI.csv")
 
 
 
