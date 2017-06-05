@@ -43,8 +43,8 @@ real_results <- as.data.frame(cbind(real_HONS_HOS,real_HONS_HNS,real_HONS_HS,rea
 rand_results<-matrix(nrow=1,ncol=6)
 colnames(rand_results)<- c("rand_HONS_HOS","rand_HONS_HNS","rand_HONS_HS","rand_HOS_HNS","rand_HOS_HS","rand_HNS_HS")
 
-#replicate(1000, {
-for (i in 1:1000){
+#replicate(10000, {
+for (i in 1:10000){
   rand <- data[,sample(ncol(data))] #randomizing samples among treatments
   names(rand)<- names(data)
   rand_HONS <- t(rand[,grep("HONS",names(rand))])
@@ -74,13 +74,13 @@ for (i in 1:1000){
   rand_comp <- as.data.frame(cbind(rand_HONS_HOS,rand_HONS_HNS,rand_HONS_HS,rand_HOS_HNS,rand_HOS_HS,rand_HNS_HS))
   rand_results <- rbind(rand_results,rand_comp)
 }
-rand_results <- rand_results[2:1001,]
+rand_results <- rand_results[2:10001,]
 ###calculating p value
-#replicate the real data 1000 times
-real_results <- real_results[rep(seq_len(nrow(real_results)), each=1000),]
+#replicate the real data 10000 times
+real_results <- real_results[rep(seq_len(nrow(real_results)), each=10000),]
 #calculate the p.value as the nuber of times the real diff in ratio was equal to
 #or larger than the randomize diff
-p.values <-as.data.frame(colSums(rand_results>=real_results))/1000 
+p.values <-as.data.frame(colSums(rand_results>=real_results))/10000 
 write.csv(p.values,file="Pvalues.csv")
 write.csv(mean_data,file="diversity.csv")
 
